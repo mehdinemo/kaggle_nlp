@@ -25,7 +25,7 @@ def create_graph(messages_df: pd.DataFrame):
     messages_df['clean_text'] = messages_df['text'].apply(
         lambda x: ' '.join([word for word in x.split() if word not in (stop)]))
 
-    allkeywords = _text_to_allkeywords(messages_df, 'text')
+    allkeywords = _text_to_allkeywords(messages_df, 'clean_text')
 
     nodes = allkeywords.groupby(['message_id'], as_index=False)['word'].count()
     nodes.columns = ['id', 'weight']
