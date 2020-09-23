@@ -32,10 +32,10 @@ def main():
 
     X_train = X_train[~X_train['id'].isin(noise_data)]
 
-    method = ''
-    sub_method = ''
+    method = 'eig'
+    sub_method = 'eig'
     label_method = 'louvain'
-    n_head_score = 0.5
+    n_head_score = 0.7
     messages = docapp.document_classification(tagged_messages=X_train, untagged_messages=X_test,
                                               method=method,
                                               sub_method=sub_method,
