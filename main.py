@@ -32,8 +32,8 @@ def main():
 
     X_train = X_train[~X_train['id'].isin(noise_data)]
 
-    method = 'eig'
-    sub_method = 'eig'
+    method = ''
+    sub_method = ''
     label_method = 'louvain'
     n_head_score = 0.7
     messages = docapp.document_classification(tagged_messages=X_train, untagged_messages=X_test,
@@ -42,9 +42,13 @@ def main():
                                               label_method=label_method,
                                               n_head_score=n_head_score)
 
-    messages.dropna(inplace=True)
-    messages['label'] = messages['label'].astype(int)
-    acc = classification_report(messages['tag'], messages['label'])
+    tmp = X_test[['id', 'tag']].merge(messages[['id', 'label']], how='left', on='id')
+    tmp.fillna(0, inplace=True)
+    acc = classification_report(y_true=tmp['tag'], y_pred=tmp['label'])
+
+    # messages.dropna(inplace=True)
+    # messages['label'] = messages['label'].astype(int)
+    # acc = classification_report(messages['tag'], messages['label'])
     print(acc)
 
     # messages.to_excel('messages_louvain.xlsx', index=False)
